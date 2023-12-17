@@ -1,16 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+
+dotenv.config(); // Load environment variables from .env file
 
 const app = express();
 app.use(bodyParser.json());
 const cors = require("cors");
 app.use(cors());
+const port = process.env.PORT || 3000;
 
 // Connect to MongoDB
 mongoose
   .connect(
-    "mongodb+srv://Kaif2:Kaif2@cluster0.ml22r8k.mongodb.net/?retryWrites=true&w=majority",
+    process.env.MONGODB_URI,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connected to MongoDB"))
@@ -108,4 +112,4 @@ app.post("/api/yoga-enroll", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("Server listening on port 3000"));
+app.listen(port, () => console.log(`Server listening on port ${port}`));
